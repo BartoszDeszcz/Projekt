@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 
 # Title of the page
-st.title("Przewidywanie cen mieszkań w Kalifornii")
+st.title("Przewidywanie ceny mieszkania w Kalifornii")
 
 # Input fields
 wysokosc_geograficzna = st.text_input("Wysokość geograficzna")
@@ -11,8 +11,8 @@ lat = st.text_input("Szerokość geograficzna")
 total_rooms = st.text_input("Liczba pokoi w bloku")
 liczba_mieszkan_w_bloku = st.text_input("Liczba mieszkań w bloku")
 liczba_sypialni = st.text_input("Liczba sypialni")
-housing_median_age = st.text_input("Wiek")
-median_income = st.text_input("Mediana zarobków w bloku podana w tysiącach dolarów")
+housing_median_age = st.text_input("Wiek nieruchomości")
+median_income = st.text_input("Mediana przychodów mieszkańców bloku (podana w tysiącach dolarów)")
 
 #Validate input values
 if not wysokosc_geograficzna or not lat or not total_rooms or not liczba_mieszkan_w_bloku or not housing_median_age or not liczba_sypialni or not median_income:
@@ -44,7 +44,7 @@ input_data = pd.DataFrame([input_data])
 try:
     prediction = loaded_model.predict(input_data).squeeze()
     st.session_state['prediction'] = prediction
-    st.success("Prediction successful!")
+    st.success("Zrobione!")
 
     if st.session_state['prediction']:
         pred = st.session_state['prediction']
@@ -59,7 +59,7 @@ try:
             """,
             unsafe_allow_html=True,
         )
-        st.metric(label='Predicted house value:', value=f"$ {pred:.2f}")
+        st.metric(label='Oszacowana wartość nieruchomości:', value=f"$ {pred:.2f}")
 
 except Exception as e:
-    st.error(f"Error during prediction: {str(e)}")
+    st.error(f"Wystąpił błąd podczas przewidywania: {str(e)}")
